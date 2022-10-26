@@ -1,11 +1,50 @@
 * {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 .mapboxgl-map {
-    position:absolute; 
-    top:0; 
-    bottom:0; 
-    width:100%;
-    }
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 100%;
+}
+
+.mapboxgl-ctrl-top-right {
+	top: 20px;
+	right: 20px;
+}
+
+.mapboxgl-ctrl-group button {
+	width: 50px;
+	height: 50px;
+	background-color: white;
+	border-radius: 50% !important;
+	box-shadow: 0px 0px 20px rgb(0 0 0 / 10%);
+}
+
+.mapboxgl-ctrl-top-right .mapboxgl-ctrl {
+	margin: 0;
+}
+.mapboxgl-ctrl-geolocate-active {
+	opacity: 0;
+	pointer-events: none;
+}
+.mapboxgl-ctrl-group:not(:empty) {
+	box-shadow: none;
+}
+
+.mapboxgl-ctrl-group {
+	background: transparent;
+}
+
+.mapboxgl-user-location-accuracy-circle {
+	background-color: rgba(29, 161, 242, 0.1);
+}
+
+.mapboxgl-ctrl
+	button.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-background
+	.mapboxgl-ctrl-icon {
+	top: 0;
+	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width=%2729%27 height=%2729%27 viewBox=%270 0 20 20%27 xmlns=%27http://www.w3.org/2000/svg%27 fill=%27%23333%27%3E %3Cpath d=%27M10 4C9 4 9 5 9 5v.1A5 5 0 0 0 5.1 9H5s-1 0-1 1 1 1 1 1h.1A5 5 0 0 0 9 14.9v.1s0 1 1 1 1-1 1-1v-.1a5 5 0 0 0 3.9-3.9h.1s1 0 1-1-1-1-1-1h-.1A5 5 0 0 0 11 5.1V5s0-1-1-1zm0 2.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 1 1 0-7z%27/%3E %3Ccircle id=%27dot%27 cx=%2710%27 cy=%2710%27 r=%272%27/%3E %3Cpath id=%27stroke%27 d=%27M14 5l1 1-9 9-1-1 9-9z%27 display=%27none%27/%3E %3C/svg%3E");
+}
