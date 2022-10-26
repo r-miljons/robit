@@ -18,7 +18,7 @@ export default function Map() {
 		if (map.current) return; // initialize map only once
 		map.current = new mapboxgl.Map({
 		container: mapContainer.current,
-		style: "mapbox://styles/sienaone/cl9pmpju3004e14vqh2b5c77y",
+		style: "mapbox://styles/mapbox/light-v10",
 		center: [lng, lat],
 		zoom: zoom
 		});

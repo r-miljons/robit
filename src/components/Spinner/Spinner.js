@@ -4,7 +4,7 @@ import { LoadingSpinner } from "./Spinner.styled";
 export default function Spinner() {
 	return (
 		<LoadingSpinner>
-			<div class="lds-ellipsis">
+			<div className="lds-ellipsis">
 				<div></div>
 				<div></div>
 				<div></div>
