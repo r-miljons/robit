@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const StyledMenuIcon = styled.button`
-    height: 60px;
-    width: 60px;
+    height: 50px;
+    width: 50px;
     border-radius: 50%;
     border: none;
     background-color: ${props => props.theme.colors.primaryColor};

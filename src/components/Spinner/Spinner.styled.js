@@ -15,14 +15,14 @@ export const LoadingSpinner = styled.div`
         font-size: 24px;
         color: ${(props) => props.theme.colors.darkText};
         font-family: Roboto, sans-serif;
-        font-weight: 500;
+        font-weight: 300;
     }
 	.lds-ellipsis {
 		display: inline-block;
 		position: relative;
 		width: 80px;
 		height: 80px;
-        transform: scale(2);
+        transform: scale(1.5);
 	}
 	.lds-ellipsis div {
 		position: absolute;
