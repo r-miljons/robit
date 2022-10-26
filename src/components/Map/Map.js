@@ -17,15 +17,16 @@ export default function Map() {
 	const [lat, setLat] = useState(56.94);
 	const [zoom, setZoom] = useState(13);
 	const [debug, setDebug] = useState(null);
-	const [returnData, setReturnData] = useState({
-		totalDistance: 0,
-		prevLng: lng,
-		prevLat: lat,
+	const [totals, setTotals] = useState({
+		distance: 0,
 		updateCount: 0,
 	});
 
 	function handleLocationChange(e) {
-		console.log("triggered");
+		setTotals({
+			distance: totals.distance + 1,
+			updateCount: totals.updateCount + 1,
+		});
 		setDebug(
 			<div id="return-data"
 			style={{
@@ -40,23 +41,17 @@ export default function Map() {
 				color: "white",
 				textAlign: "center",
 			}}>
-				<p>previous latitude: {returnData.prevLat}</p>
-				<p>previous longitude: {returnData.prevLng}</p>
+				<p>previous latitude: {lng}</p>
+				<p>previous longitude: {lat}</p>
 				<p>latitude: {e.coords.latitude}</p>
 				<p>longitude: {e.coords.longitude}</p>
-				<p>total km: {returnData.totalDistance}</p>
-				<p>total m: {returnData.totalDistance*1000}</p>
-				<p>update count: {returnData.updateCount}</p>
+				<p>total km: {totals.distance}</p>
+				<p>total m: {totals.distance*1000}</p>
+				<p>update count: {totals.updateCount}</p>
 			</div>
 		);
-		setReturnData({
-			...returnData,
-			updateCount: returnData.updateCount + 1,
-			totalDistance: returnData.totalDistance + distance(returnData.prevLat, returnData.prevLng, e.coords.latitude, e.coords.longitude),
-			prevLat: e.coords.latitude,
-			prevLng: e.coords.longitude,
-
-		});
+		setLng(e.coords.longitude);
+		setLat(e.coords.latitude);
 	}
 
 	useEffect(() => {
