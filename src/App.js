@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { useEffect } from "react";
+import { ThemeProvider } from "styled-components";
+import Actions from "./components/Actions/Actions";
+import { StyledAppContainer } from "./components/App/AppContainer.styled";
+import Header from "./components/Header/Header";
+import Map from "./components/Map/Map";
+import Spinner from "./components/Spinner/Spinner";
+import { theme } from "./theme";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 3000);
+  },[])
+
+	return (
+		<ThemeProvider theme={theme}>
+			<StyledAppContainer>
+        {loading && <Spinner/>}
+        <Header/>
+        <Map/>
+        <Actions/>
+      </StyledAppContainer>
+		</ThemeProvider>
+	);
 }
 
 export default App;
