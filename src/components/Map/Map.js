@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { StyledMapContainer } from "./MapContainer.styled";
+/* eslint import/no-webpack-loader-syntax: off */
 import mapboxgl from "!mapbox-gl";
 import 'mapbox-gl/dist/mapbox-gl.css';
 
