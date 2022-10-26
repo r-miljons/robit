@@ -21,37 +21,20 @@ export default function Map() {
 		distance: 0,
 		updateCount: 0,
 	});
+	const [count, setCount] = useState(0);
 
 	function handleLocationChange(e) {
-		setTotals({
-			distance: totals.distance + 1,
-			updateCount: totals.updateCount + 1,
-		});
-		setDebug(
-			<div id="return-data"
-			style={{
-				position: "fixed",
-				top: 400,
-				left: 0,
-				right: 0,
-				margin: "0 auto",
-				height: "100%",
-				backgroundColor: "rgba(0,0,0,0.4)",
-				display: "block",
-				color: "white",
-				textAlign: "center",
-			}}>
-				<p>previous latitude: {lng}</p>
-				<p>previous longitude: {lat}</p>
-				<p>latitude: {e.coords.latitude}</p>
-				<p>longitude: {e.coords.longitude}</p>
-				<p>total km: {totals.distance}</p>
-				<p>total m: {totals.distance*1000}</p>
-				<p>update count: {totals.updateCount}</p>
-			</div>
-		);
 		setLng(e.coords.longitude);
 		setLat(e.coords.latitude);
+		setCount(prevState => prevState + 1);
+		setTotals(prevState => {
+			return {
+				...prevState,
+				distance: prevState.distance + distance(lat, lng, e.coords.latitude, e.coords.longitude),
+				updateCount: prevState.updateCount + 1
+			}
+		});
+		
 	}
 
 	useEffect(() => {
@@ -86,7 +69,25 @@ export default function Map() {
 	return (
 		<>
 			<StyledMapContainer ref={mapContainer} />;
-			{debug}
+			<div id="return-data"
+			style={{
+				position: "fixed",
+				top: 400,
+				left: 0,
+				right: 0,
+				margin: "0 auto",
+				height: "100%",
+				backgroundColor: "rgba(0,0,0,0.4)",
+				display: "block",
+				color: "white",
+				textAlign: "center",
+			}}>
+				<p>latitude: {lat}</p>
+				<p>longitude: {lng}</p>
+				<p>total km: {(totals.distance/1000).toFixed(3)}</p>
+				<p>total m: {(totals.distance).toFixed(3)}</p>
+				<p>update count: {totals.updateCount}</p>
+			</div>
 		</>
 	);
 }
