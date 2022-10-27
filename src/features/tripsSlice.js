@@ -39,7 +39,7 @@ export const tripsSlice = createSlice({
 				distance: state.current.distance,
 				type: state.current.type,
 			};
-			state.history.push(savedTrip);
+			state.history.unshift(savedTrip);
 			state.current = {
 				id: null,
 				active: false,
@@ -51,16 +51,14 @@ export const tripsSlice = createSlice({
 		},
 		// update current trip by providing lat,lng,distance and/or type
 		updateCurrentTrip: (state, action) => {
-			// calculate distance from current position - last known position
-			console.log(state.current.coords.length)
+			// calculate distance from (current position - last known position)
 			if (state.current.coords.length > 0) {
 				const lastKnownPosition = state.current.coords[state.current.coords.length - 1];
-				console.log(distance(lastKnownPosition[1], lastKnownPosition[0], action.payload.lat, action.payload.lng))
 				state.current.distance =
 				state.current.distance +
-				distance(lastKnownPosition[1], lastKnownPosition[0], action.payload.lat, action.payload.lng);
+				distance(lastKnownPosition[0], lastKnownPosition[1], action.payload.lat, action.payload.lng);
 			} 
-			state.current.coords.push([action.payload.lng, action.payload.lat]);
+			state.current.coords.push([action.payload.lat, action.payload.lng]);
 
 			if (action.payload.type) {
 				state.current.type = action.payload.type;

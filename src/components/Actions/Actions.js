@@ -4,19 +4,16 @@ import store from '../../app/store';
 import { endTrip, startTrip } from '../../features/tripsSlice';
 import { StyledActionsContainer } from './Actions.styled'
 import RideOptions from './RideOptions'
+import Summary from './Summary';
 import ToggleRide from './ToggleRide'
 
 export default function Actions() {
   const [actionsOpen, setActionsOpen] = useState(false);
+  const [summaryOpen, setSummaryOpen] = useState(false);
   const dispatch = useDispatch();
 
   function toggleActionsOpen() {
-    
-    if (store.getState().trips.current.active) {
-      dispatch(endTrip());
-    } else {
       setActionsOpen(prevState => !prevState);
-    }
   }
 
   function handleTripStart(tripType) {
@@ -24,11 +21,18 @@ export default function Actions() {
     dispatch(startTrip(tripType));
   }
 
+  function handleTripEnd() {
+    if (!store.getState().trips.current.coords.length) return;
+    setSummaryOpen(true);
+    dispatch(endTrip());
+  }
+
   return (
     <StyledActionsContainer open={actionsOpen} >
         <span id="swipe-bar"></span>
-        <ToggleRide handleClick={toggleActionsOpen} visible={!actionsOpen}/>
+        <ToggleRide toggleActionsOpen={toggleActionsOpen} visible={!actionsOpen} handleTripEnd={handleTripEnd}/>
         <RideOptions handleTripStart={handleTripStart} visible={actionsOpen}/>
+        { summaryOpen && <Summary setSummaryOpen={setSummaryOpen}/> }
     </StyledActionsContainer>
   )
 }

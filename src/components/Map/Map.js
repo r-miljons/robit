@@ -8,8 +8,9 @@ import store from "../../app/store";
 /* eslint import/no-webpack-loader-syntax: off */
 import mapboxgl from "!mapbox-gl";
 
-mapboxgl.accessToken =
-	"pk.eyJ1Ijoic2llbmFvbmUiLCJhIjoiY2w5cHRpNmplMDJmYjNvbDdsY2ZxcWJobCJ9.IpoS9W6rp0EYf0XzYw-3ug";
+export const TOKEN = "pk.eyJ1Ijoic2llbmFvbmUiLCJhIjoiY2w5cHRpNmplMDJmYjNvbDdsY2ZxcWJobCJ9.IpoS9W6rp0EYf0XzYw-3ug";
+
+mapboxgl.accessToken = TOKEN;
 
 export default function Map() {
 	const dispatch = useDispatch();
