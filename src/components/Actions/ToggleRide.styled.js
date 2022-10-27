@@ -6,7 +6,7 @@ export const StyledToggleRideButton = styled.button`
     top: 40px;
     width: 80%;
     max-width: 250px;
-    background-color: ${props => props.theme.colors.offWhite};
+    background-color: ${props => props.active ? props.theme.colors.darkGreen : props.theme.colors.offWhite};
     border: none;
     border-radius: 30px;
     display: flex;
@@ -17,14 +17,10 @@ export const StyledToggleRideButton = styled.button`
     font-size: 20px;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: ${props => props.theme.colors.darkText};
+    color: ${props => props.active ? props.theme.colors.white : props.theme.colors.darkText};
     box-shadow: ${props => props.theme.shadow};
     opacity: ${props => props.visible ? 1 : 0};
     transition: all 0.1s;
-    &:hover {
-        background-color: ${props => props.theme.colors.lightGreen};
-        color: ${props => props.theme.colors.darkText};
-    }
     &:active {
         background-color: ${props => props.theme.colors.darkGreen};
         color: ${props => props.theme.colors.offWhite};

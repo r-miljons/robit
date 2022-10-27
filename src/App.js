@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { ThemeProvider } from "styled-components";
-import { store } from "./app/store";
+import  store  from "./app/store";
 import Actions from "./components/Actions/Actions";
 import { StyledAppContainer } from "./components/App/AppContainer.styled";
 import Header from "./components/Header/Header";

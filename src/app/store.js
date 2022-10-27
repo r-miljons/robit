@@ -1,8 +1,15 @@
 import {configureStore} from "@reduxjs/toolkit";
-import tripsReducer from "../features/tripsSlice";
+import tripsReducer, { persistTripsState } from "../features/tripsSlice";
 
-export const store = configureStore({
+const store = configureStore({
     reducer: {
         trips: tripsReducer,
     },
+    middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware().concat([
+			// add middleware
+			persistTripsState,
+		]),
 });
+
+export default store;

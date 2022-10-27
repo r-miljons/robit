@@ -1,36 +1,37 @@
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { StyledMapContainer } from "./MapContainer.styled";
+import "mapbox-gl/dist/mapbox-gl.css";
+import { useDispatch } from "react-redux";
+import { updateCurrentTrip } from "../../features/tripsSlice";
+import store from "../../app/store";
 /* eslint import/no-webpack-loader-syntax: off */
 import mapboxgl from "!mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
-import { distance } from "../../utils/distance";
 
 mapboxgl.accessToken =
 	"pk.eyJ1Ijoic2llbmFvbmUiLCJhIjoiY2w5cHRpNmplMDJmYjNvbDdsY2ZxcWJobCJ9.IpoS9W6rp0EYf0XzYw-3ug";
 
 export default function Map() {
+	const dispatch = useDispatch();
 	const mapContainer = useRef(null);
 	const map = useRef(null);
 	const [lng, setLng] = useState(24.1);
 	const [lat, setLat] = useState(56.94);
-	const [zoom, setZoom] = useState(13);
-	const [totals, setTotals] = useState({
-		distance: 0,
-		updateCount: 0,
-	});
 
 	function handleLocationChange(e) {
 		setLng(e.coords.longitude);
 		setLat(e.coords.latitude);
-		setTotals(prevState => {
-			return {
-				...prevState,
-				distance: prevState.distance + distance(lat, lng, e.coords.latitude, e.coords.longitude),
-				updateCount: prevState.updateCount + 1
-			}
-		});
-		
+
+		// if theres an ongoing trip, send location updates to store
+
+		if (store.getState().trips.current.active) {
+			dispatch(
+				updateCurrentTrip({
+					lng: e.coords.longitude,
+					lat: e.coords.latitude,
+				})
+			);
+		}
 	}
 
 	useEffect(() => {
@@ -39,7 +40,7 @@ export default function Map() {
 			container: mapContainer.current,
 			style: "mapbox://styles/mapbox/light-v10",
 			center: [lng, lat],
-			zoom: zoom,
+			zoom: 13,
 		});
 		// initialize geolocation functionality
 		const geolocate = new mapboxgl.GeolocateControl({
@@ -55,9 +56,9 @@ export default function Map() {
 		// add geolocation controls (move to current location)
 		map.current.addControl(geolocate);
 		//trigger the start of location tracking on map load
-		map.current.on('load', () => {
+		map.current.on("load", () => {
 			geolocate.trigger();
-			});
+		});
 		// add geolocation change listener with a callback
 		geolocate.on("geolocate", (e) => handleLocationChange(e));
 
@@ -70,25 +71,6 @@ export default function Map() {
 	return (
 		<>
 			<StyledMapContainer ref={mapContainer} />;
-			<div id="return-data"
-			style={{
-				position: "fixed",
-				top: 400,
-				left: 0,
-				right: 0,
-				margin: "0 auto",
-				height: "100%",
-				backgroundColor: "rgba(0,0,0,0.4)",
-				display: "block",
-				color: "white",
-				textAlign: "center",
-			}}>
-				<p>latitude: {lat}</p>
-				<p>longitude: {lng}</p>
-				<p>total km: {(totals.distance/1000).toFixed(3)}</p>
-				<p>total m: {(totals.distance).toFixed(3)}</p>
-				<p>update count: {totals.updateCount}</p>
-			</div>
 		</>
 	);
 }
