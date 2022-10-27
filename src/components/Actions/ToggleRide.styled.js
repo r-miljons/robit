@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const StyledToggleRideButton = styled.button`
     height: 50px;
     position: absolute;
-    top: 30px;
+    top: 40px;
     width: 80%;
     max-width: 250px;
     background-color: ${props => props.theme.colors.offWhite};
@@ -15,7 +15,6 @@ export const StyledToggleRideButton = styled.button`
     font-family: Roboto, sans-serif;
     font-weight: 400;
     font-size: 20px;
-    margin-top: 10px;
     text-transform: uppercase;
     letter-spacing: 1px;
     color: ${props => props.theme.colors.darkText};
