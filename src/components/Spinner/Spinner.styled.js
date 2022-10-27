@@ -16,6 +16,8 @@ export const LoadingSpinner = styled.div`
         color: ${(props) => props.theme.colors.darkText};
         font-family: Roboto, sans-serif;
         font-weight: 300;
+		text-align: center;
+		padding: 0 2rem;
     }
 	.lds-ellipsis {
 		display: inline-block;

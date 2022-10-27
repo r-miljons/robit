@@ -1,12 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyledActionsContainer } from './Actions.styled'
+import RideOptions from './RideOptions'
 import ToggleRide from './ToggleRide'
 
 export default function Actions() {
+  const [actionsOpen, setActionsOpen] = useState(false);
+
+  function toggleActionsOpen() {
+    setActionsOpen(prevState => !prevState);
+  }
+
   return (
-    <StyledActionsContainer>
+    <StyledActionsContainer open={actionsOpen} >
         <span id="swipe-bar"></span>
-        <ToggleRide/>
+        <ToggleRide handleClick={toggleActionsOpen} visible={!actionsOpen}/>
+        <RideOptions visible={actionsOpen}/>
     </StyledActionsContainer>
   )
 }

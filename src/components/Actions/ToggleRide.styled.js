@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 export const StyledToggleRideButton = styled.button`
     height: 50px;
+    position: absolute;
+    top: 30px;
     width: 80%;
     max-width: 250px;
     background-color: ${props => props.theme.colors.offWhite};
@@ -18,9 +20,14 @@ export const StyledToggleRideButton = styled.button`
     letter-spacing: 1px;
     color: ${props => props.theme.colors.darkText};
     box-shadow: ${props => props.theme.shadow};
-    transition: all 0.2s;
+    opacity: ${props => props.visible ? 1 : 0};
+    transition: all 0.1s;
     &:hover {
-        background-color: ${props => props.theme.colors.darkText};
+        background-color: ${props => props.theme.colors.lightGreen};
+        color: ${props => props.theme.colors.darkText};
+    }
+    &:active {
+        background-color: ${props => props.theme.colors.darkGreen};
         color: ${props => props.theme.colors.offWhite};
     }
 `

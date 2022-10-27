@@ -1,8 +1,8 @@
 import React from 'react'
 import { StyledToggleRideButton } from './ToggleRide.styled'
 
-export default function ToggleRide() {
+export default function ToggleRide({handleClick, visible}) {
   return (
-    <StyledToggleRideButton>Start Ride</StyledToggleRideButton>
+    <StyledToggleRideButton visible={visible} onClick={handleClick}>Start Ride</StyledToggleRideButton>
   )
 }

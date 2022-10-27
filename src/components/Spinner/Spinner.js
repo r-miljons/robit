@@ -1,5 +1,6 @@
 import React from "react";
 import { LoadingSpinner } from "./Spinner.styled";
+import { loadingMessages } from "./loadingMessages";
 
 export default function Spinner() {
 	return (
@@ -10,7 +11,7 @@ export default function Spinner() {
 				<div></div>
 				<div></div>
 			</div>
-			<p>Loading your mobility data</p>
+			<p>{loadingMessages[Math.floor(Math.random()*(loadingMessages.length - 1))]}</p>
 		</LoadingSpinner>
 	);
 }

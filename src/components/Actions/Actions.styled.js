@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const StyledActionsContainer = styled.div`
-    height: 120px;
+    height: ${props => props.open? "500px" : "120px"};
     width: 100%;
     background-color: ${props => props.theme.colors.primaryColor};
     border-top-left-radius: 30px;
@@ -13,6 +13,7 @@ export const StyledActionsContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: all 0.2s;
 
     #swipe-bar {
         background-color: ${props => props.theme.colors.offWhite};

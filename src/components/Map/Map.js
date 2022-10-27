@@ -10,23 +10,19 @@ mapboxgl.accessToken =
 	"pk.eyJ1Ijoic2llbmFvbmUiLCJhIjoiY2w5cHRpNmplMDJmYjNvbDdsY2ZxcWJobCJ9.IpoS9W6rp0EYf0XzYw-3ug";
 
 export default function Map() {
-	const [darkMode, setDarkmode] = useState(false);
 	const mapContainer = useRef(null);
 	const map = useRef(null);
 	const [lng, setLng] = useState(24.1);
 	const [lat, setLat] = useState(56.94);
 	const [zoom, setZoom] = useState(13);
-	const [debug, setDebug] = useState(null);
 	const [totals, setTotals] = useState({
 		distance: 0,
 		updateCount: 0,
 	});
-	const [count, setCount] = useState(0);
 
 	function handleLocationChange(e) {
 		setLng(e.coords.longitude);
 		setLat(e.coords.latitude);
-		setCount(prevState => prevState + 1);
 		setTotals(prevState => {
 			return {
 				...prevState,
@@ -45,6 +41,7 @@ export default function Map() {
 			center: [lng, lat],
 			zoom: zoom,
 		});
+		// initialize geolocation functionality
 		const geolocate = new mapboxgl.GeolocateControl({
 			positionOptions: {
 				enableHighAccuracy: true,
@@ -55,12 +52,16 @@ export default function Map() {
 			showUserHeading: true,
 			showAccuracyCircle: true,
 		});
+		// add geolocation controls (move to current location)
 		map.current.addControl(geolocate);
+		//trigger the start of location tracking on map load
 		map.current.on('load', () => {
 			geolocate.trigger();
 			});
+		// add geolocation change listener with a callback
 		geolocate.on("geolocate", (e) => handleLocationChange(e));
 
+		//cleanup listener
 		return () => {
 			geolocate.off("geolocate", (e) => handleLocationChange(e));
 		};
