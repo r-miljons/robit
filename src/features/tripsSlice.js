@@ -5,11 +5,13 @@ import { distance } from "../utils/distance";
 const STORAGE_KEY = "robit-app-trips";
 const STORAGE = localStorage.getItem(STORAGE_KEY);
 
+const DEFAULT_TRIP = { id: null, active: false, coords: [], distance: 0, startTime: null, endTime: null, type: null };
+
 const INITIAL_STATE = STORAGE
 	? JSON.parse(STORAGE)
 	: {
 		history: [],
-		current: { id: null, active: false, coords: [], distance: 0, type: null },
+		current: DEFAULT_TRIP,
 		types: [
 			{ name: "Bike", image: "bike.svg" },
 			{ name: "Scooter", image: "scooter.svg" },
@@ -29,24 +31,35 @@ export const tripsSlice = createSlice({
 			state.current.id = uuid();
 			state.current.active = true;
 			state.current.type = action.payload;
+			state.current.startTime = Date.now();
 			return state;
 		},
 		endTrip: (state) => {
+			// when ending the trip, calculate points based on the distance and trip type
+			// and record the ending time
 			if (state.current.active === false) return;
+			const calculatePoints = (type, distance) => {
+				let points = 0;
+				switch (type) {
+					case "Bike": points = distance * 50; break;
+					case "Scooter": points = distance * 50; break;
+					case "Public Transport": points = distance * 30; break;
+					case "Walking": points = distance * 50; break;
+					case "Car": points = distance * 1; break;
+				}
+				return Math.floor(points);
+			};
 			const savedTrip = {
 				id: state.current.id,
 				coords: state.current.coords,
 				distance: state.current.distance,
 				type: state.current.type,
+				startTime: state.current.startTime,
+				endTime: Date.now(),
+				points: calculatePoints(state.current.type, state.current.distance),
 			};
 			state.history.unshift(savedTrip);
-			state.current = {
-				id: null,
-				active: false,
-				coords: [],
-				distance: 0,
-				type: null,
-			};
+			state.current = DEFAULT_TRIP;
 			return state;
 		},
 		// update current trip by providing lat,lng,distance and/or type

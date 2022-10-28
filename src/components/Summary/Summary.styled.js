@@ -10,5 +10,6 @@ export const StyledSummary = styled.div`
     flex-direction: column;
     top: 0;
     left: 0;
+    padding: 20px;
     background-color: ${props => props.theme.colors.offWhite};
 `
