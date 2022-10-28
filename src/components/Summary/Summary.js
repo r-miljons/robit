@@ -13,7 +13,13 @@ export default function Summary({ setSummaryOpen }) {
 
 	useEffect(() => {
 		// first turn the trip coordinates into an encoded url string
-		const encodedPolyline = polyline.encode(trip.coords);
+		let encodedPolyline;
+		if (trip.coords.length === 1) {
+			const duplicateCoords = trip.coords.concat([trip.coords]);
+			encodedPolyline = polyline.encode(duplicateCoords);
+		} else {
+			encodedPolyline = polyline.encode(trip.coords);
+		}
 		// then build the url
 		let url = `https://api.mapbox.com/styles/v1/mapbox/light-v10/static/path-5+337034(${encodeURIComponent(
 			encodedPolyline

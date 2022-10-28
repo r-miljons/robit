@@ -11,7 +11,7 @@ const INITIAL_STATE = STORAGE
 	? JSON.parse(STORAGE)
 	: {
 		history: [],
-		current: DEFAULT_TRIP,
+		current: {...DEFAULT_TRIP},
 		types: [
 			{ name: "Bike", image: "bike.svg" },
 			{ name: "Scooter", image: "scooter.svg" },
@@ -59,7 +59,7 @@ export const tripsSlice = createSlice({
 				points: calculatePoints(state.current.type, state.current.distance),
 			};
 			state.history.unshift(savedTrip);
-			state.current = DEFAULT_TRIP;
+			state.current = {...DEFAULT_TRIP};
 			return state;
 		},
 		// update current trip by providing lat,lng,distance and/or type
@@ -69,7 +69,7 @@ export const tripsSlice = createSlice({
 				const lastKnownPosition = state.current.coords[state.current.coords.length - 1];
 				state.current.distance =
 				state.current.distance +
-				distance(lastKnownPosition[0], lastKnownPosition[1], action.payload.lat, action.payload.lng);
+				(distance(lastKnownPosition[0], lastKnownPosition[1], action.payload.lat, action.payload.lng) * 1000);
 			} 
 			state.current.coords.push([action.payload.lat, action.payload.lng]);
 

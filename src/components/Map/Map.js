@@ -19,17 +19,6 @@ function Map({tripState, setLoading}) {
 	const [lng, setLng] = useState(24.1);
 	const [lat, setLat] = useState(56.94);
 
-	// make sure to send initial coords when starting a trip
-	// to prevent a trip without coords in case there where no loaction updates
-	useEffect(() => {
-		if (tripState) {
-			// send two points because the summary mini map requires at least two points 
-			// (it draws a line between them to visualize travelled path)
-			dispatch(updateCurrentTrip({ lng: lng, lat: lat }));
-			dispatch(updateCurrentTrip({ lng: lng, lat: lat }));
-		}
-	}, [tripState]);
-
 	function handleLocationChange(e) {
 		setLng(e.coords.longitude);
 		setLat(e.coords.latitude);
