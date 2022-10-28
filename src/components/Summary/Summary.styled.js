@@ -2,6 +2,7 @@ import styled from "styled-components"
 
 export const StyledSummary = styled.div`
     position: fixed;
+    box-sizing: border-box;
     height: 100%;
     width: 100%;
     display: flex;
@@ -10,6 +11,6 @@ export const StyledSummary = styled.div`
     flex-direction: column;
     top: 0;
     left: 0;
-    padding: 20px;
+    padding: 20px !important;
     background-color: ${props => props.theme.colors.offWhite};
 `
