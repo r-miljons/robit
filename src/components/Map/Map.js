@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { StyledMapContainer } from "./MapContainer.styled";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, connect } from "react-redux";
 import { updateCurrentTrip } from "../../features/tripsSlice";
 import store from "../../app/store";
 /* eslint import/no-webpack-loader-syntax: off */
@@ -12,12 +12,23 @@ export const TOKEN = "pk.eyJ1Ijoic2llbmFvbmUiLCJhIjoiY2w5cHRpNmplMDJmYjNvbDdsY2Z
 
 mapboxgl.accessToken = TOKEN;
 
-export default function Map() {
+function Map({tripState, setLoading}) {
 	const dispatch = useDispatch();
 	const mapContainer = useRef(null);
 	const map = useRef(null);
 	const [lng, setLng] = useState(24.1);
 	const [lat, setLat] = useState(56.94);
+
+	// make sure to send initial coords when starting a trip
+	// to prevent a trip without coords in case there where no loaction updates
+	useEffect(() => {
+		if (tripState) {
+			// send two points because the summary mini map requires at least two points 
+			// (it draws a line between them to visualize travelled path)
+			dispatch(updateCurrentTrip({ lng: lng, lat: lat }));
+			dispatch(updateCurrentTrip({ lng: lng, lat: lat }));
+		}
+	}, [tripState]);
 
 	function handleLocationChange(e) {
 		setLng(e.coords.longitude);
@@ -25,7 +36,7 @@ export default function Map() {
 
 		// if theres an ongoing trip, send location updates to store
 
-		if (store.getState().trips.current.active) {
+		if (tripState) {
 			dispatch(
 				updateCurrentTrip({
 					lng: e.coords.longitude,
@@ -59,6 +70,7 @@ export default function Map() {
 		//trigger the start of location tracking on map load
 		map.current.on("load", () => {
 			geolocate.trigger();
+			setLoading(false);
 		});
 		// add geolocation change listener with a callback
 		geolocate.on("geolocate", (e) => handleLocationChange(e));
@@ -75,3 +87,12 @@ export default function Map() {
 		</>
 	);
 }
+
+function mapStateToProps(state) {
+	return {
+		tripState: state.trips.current.active,
+	}
+}
+
+
+export default connect(mapStateToProps)(Map);

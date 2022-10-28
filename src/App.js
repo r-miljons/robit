@@ -13,17 +13,13 @@ import { Provider } from "react-redux";
 function App() {
 	const [loading, setLoading] = useState(true);
 
-	useEffect(() => {
-		setTimeout(() => setLoading(false), 3000);
-	}, []);
-
 	return (
 		<Provider store={store}>
 			<ThemeProvider theme={theme}>
 				<StyledAppContainer>
 					{loading && <Spinner />}
 					<Header />
-					<Map />
+					<Map setLoading={setLoading}/>
 					<Actions />
 				</StyledAppContainer>
 			</ThemeProvider>
