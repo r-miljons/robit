@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import store from "../../app/store";
-import { endTrip, startTrip } from "../../features/tripsSlice";
+import { endTrip, startTrip, updateCurrentTrip } from "../../features/tripsSlice";
 import { StyledActionsContainer } from "./Actions.styled";
 import RideOptions from "./RideOptions";
 import Summary from "../Summary/Summary";
@@ -22,7 +22,9 @@ export default function Actions() {
 	}
 
 	function handleTripEnd() {
-		if (!store.getState().trips.current.coords.length) return;
+    if (store.getState().trips.current.coords.length === 0) {
+      dispatch(updateCurrentTrip({ lat: store.getState().map.currentPosition.lat, lng: store.getState().map.currentPosition.lng }));
+    }
 		setSummaryOpen(true);
 		dispatch(endTrip());
 	}

@@ -1,25 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuid } from "uuid";
+import store from "../app/store";
 import { distance } from "../utils/distance";
 
 const STORAGE_KEY = "robit-app-trips";
 const STORAGE = localStorage.getItem(STORAGE_KEY);
 
-const DEFAULT_TRIP = { id: null, active: false, coords: [], distance: 0, startTime: null, endTime: null, type: null };
+const DEFAULT_TRIP = {
+	id: null,
+	active: false,
+	coords: [],
+	distance: 0,
+	startTime: null,
+	endTime: null,
+	type: null,
+};
 
 const INITIAL_STATE = STORAGE
 	? JSON.parse(STORAGE)
 	: {
-		history: [],
-		current: {...DEFAULT_TRIP},
-		types: [
-			{ name: "Bike", image: "bike.svg" },
-			{ name: "Scooter", image: "scooter.svg" },
-			{ name: "Public Transport", image: "public_transport.svg" },
-			{ name: "Walking", image: "walking.svg" },
-			{ name: "Car", image: "car.svg" },
-		],
-	};
+			history: [],
+			current: { ...DEFAULT_TRIP },
+			types: [
+				{ name: "Bike", image: "bike.svg" },
+				{ name: "Scooter", image: "scooter.svg" },
+				{ name: "Public Transport", image: "public_transport.svg" },
+				{ name: "Walking", image: "walking.svg" },
+				{ name: "Car", image: "car.svg" },
+			],
+	  };
 
 export const tripsSlice = createSlice({
 	name: "trips",
@@ -41,11 +50,21 @@ export const tripsSlice = createSlice({
 			const calculatePoints = (type, distance) => {
 				let points = 0;
 				switch (type) {
-					case "Bike": points = distance * 50; break;
-					case "Scooter": points = distance * 50; break;
-					case "Public Transport": points = distance * 30; break;
-					case "Walking": points = distance * 50; break;
-					case "Car": points = distance * 1; break;
+					case "Bike":
+						points = distance * 50;
+						break;
+					case "Scooter":
+						points = distance * 50;
+						break;
+					case "Public Transport":
+						points = distance * 30;
+						break;
+					case "Walking":
+						points = distance * 50;
+						break;
+					case "Car":
+						points = distance * 1;
+						break;
 				}
 				return Math.floor(points);
 			};
@@ -59,18 +78,25 @@ export const tripsSlice = createSlice({
 				points: calculatePoints(state.current.type, state.current.distance),
 			};
 			state.history.unshift(savedTrip);
-			state.current = {...DEFAULT_TRIP};
+			state.current = { ...DEFAULT_TRIP };
 			return state;
 		},
 		// update current trip by providing lat,lng,distance and/or type
 		updateCurrentTrip: (state, action) => {
 			// calculate distance from (current position - last known position)
 			if (state.current.coords.length > 0) {
-				const lastKnownPosition = state.current.coords[state.current.coords.length - 1];
+				const lastKnownPosition =
+					state.current.coords[state.current.coords.length - 1];
 				state.current.distance =
-				state.current.distance +
-				(distance(lastKnownPosition[0], lastKnownPosition[1], action.payload.lat, action.payload.lng) * 1000);
-			} 
+					state.current.distance +
+					distance(
+						lastKnownPosition[0],
+						lastKnownPosition[1],
+						action.payload.lat,
+						action.payload.lng
+					) *
+						1000;
+			}
 			state.current.coords.push([action.payload.lat, action.payload.lng]);
 
 			if (action.payload.type) {
@@ -80,7 +106,6 @@ export const tripsSlice = createSlice({
 		},
 	},
 });
-
 
 export const persistTripsState = (store) => (next) => (action) => {
 	const result = next(action);

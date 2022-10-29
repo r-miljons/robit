@@ -4,9 +4,9 @@ import { StyledMapContainer } from "./MapContainer.styled";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useDispatch, connect } from "react-redux";
 import { updateCurrentTrip } from "../../features/tripsSlice";
-import store from "../../app/store";
 /* eslint import/no-webpack-loader-syntax: off */
 import mapboxgl from "!mapbox-gl";
+import { currentPosition } from "../../features/mapSlice";
 
 export const TOKEN = "pk.eyJ1Ijoic2llbmFvbmUiLCJhIjoiY2w5cHRpNmplMDJmYjNvbDdsY2ZxcWJobCJ9.IpoS9W6rp0EYf0XzYw-3ug";
 
@@ -22,6 +22,7 @@ function Map({tripState, setLoading}) {
 	function handleLocationChange(e) {
 		setLng(e.coords.longitude);
 		setLat(e.coords.latitude);
+		dispatch(currentPosition({ lng: e.coords.longitude, lat: e.coords.latitude })); 
 
 		// if theres an ongoing trip, send location updates to store
 
@@ -37,6 +38,7 @@ function Map({tripState, setLoading}) {
 
 	useEffect(() => {
 		if (map.current) return; // initialize map only once
+		dispatch(currentPosition({ lng: lng, lat: lat }));
 		map.current = new mapboxgl.Map({
 			container: mapContainer.current,
 			style: "mapbox://styles/mapbox/light-v10",
