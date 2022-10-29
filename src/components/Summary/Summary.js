@@ -12,19 +12,26 @@ export default function Summary({ setSummaryOpen }) {
 	const trip = useSelector((state) => state.trips.history[0]);
 
 	useEffect(() => {
-		// first turn the trip coordinates into an encoded url string
+		const lineStyle = "path-5+337034";
+		const markerStyle = "pin-s+4a7048";
+		let currentStyle;
 		let encodedPolyline;
-		if (trip.coords.length === 1) {
-			const duplicateCoords = trip.coords.concat([trip.coords]);
-			encodedPolyline = polyline.encode(duplicateCoords);
-		} else {
-			encodedPolyline = polyline.encode(trip.coords);
-		}
+		let isMarker = false;
+		// first turn the trip coordinates into an encoded url string
+		// if distance is less than 2 m, display a marker instead of a line
+		if (trip.distance < 2) {
+			currentStyle = markerStyle;
+			encodedPolyline = `${trip.coords[0][1]},${trip.coords[0][0]}`;
+			isMarker = true;
+		} else if (trip.distance >= 2) {
+			currentStyle = lineStyle;
+			encodedPolyline = encodeURIComponent(polyline.encode(trip.coords));
+			isMarker = false;
+		} 	
 		// then build the url
-		let url = `https://api.mapbox.com/styles/v1/mapbox/light-v10/static/path-5+337034(${encodeURIComponent(
-			encodedPolyline
-		)})/auto/400x400@2x?padding=50&access_token=${TOKEN}`;
+		let url = `https://api.mapbox.com/styles/v1/mapbox/light-v10/static/${currentStyle}(${encodedPolyline})/${isMarker? `${encodedPolyline},14.5,0`: "auto"}/600x400@2x?${isMarker? "" : "padding=70&"}access_token=${TOKEN}`;
 		// and finally, fetch the mini map from geobox endpoint
+		console.log(url);
 
 		fetch(url)
 			.then((response) => setRouteMap(response.url))
