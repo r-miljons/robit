@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuid } from "uuid";
-import store from "../app/store";
 import { distance } from "../utils/distance";
 
 const STORAGE_KEY = "robit-app-trips";

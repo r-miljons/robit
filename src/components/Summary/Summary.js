@@ -31,8 +31,6 @@ export default function Summary({ setSummaryOpen }) {
 		// then build the url
 		let url = `https://api.mapbox.com/styles/v1/mapbox/light-v10/static/${currentStyle}(${encodedPolyline})/${isMarker? `${encodedPolyline},14.5,0`: "auto"}/600x400@2x?${isMarker? "" : "padding=70&"}access_token=${TOKEN}`;
 		// and finally, fetch the mini map from geobox endpoint
-		console.log(url);
-
 		fetch(url)
 			.then((response) => setRouteMap(response.url))
 			.catch((e) => console.log(e));
