@@ -50,16 +50,16 @@ export const tripsSlice = createSlice({
 				let points = 0;
 				switch (type) {
 					case "Bike":
-						points = distance * 50;
+						points = distance * 5;
 						break;
 					case "Scooter":
-						points = distance * 50;
+						points = distance * 5;
 						break;
 					case "Public Transport":
-						points = distance * 30;
+						points = distance * 5;
 						break;
 					case "Walking":
-						points = distance * 50;
+						points = distance * 5;
 						break;
 					case "Car":
 						points = distance * 1;

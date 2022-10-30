@@ -16,12 +16,12 @@ export default function Minimap() {
 		let encodedPolyline;
 		let isMarker = false;
 		// first turn the trip coordinates into an encoded url string
-		// if distance is less than 2 m, display a marker instead of a line
-		if (trip.distance < 2) {
+		// if distance is less than 1 m, display a marker instead of a line
+		if (trip.distance < 1) {
 			currentStyle = markerStyle;
 			encodedPolyline = `${trip.coords[0][1]},${trip.coords[0][0]}`;
 			isMarker = true;
-		} else if (trip.distance >= 2) {
+		} else if (trip.distance >= 1) {
 			currentStyle = lineStyle;
 			encodedPolyline = encodeURIComponent(polyline.encode(trip.coords));
 			isMarker = false;

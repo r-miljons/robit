@@ -41,7 +41,7 @@ export default function SummarySlider({ data }) {
 			<Slider {...settings}>
 				{dataArray.map((item) => {
 					return (
-						<div style={{padding: 20}}>
+						<div style={{padding: 20}} key={item}>
 							<StyledSliderCard key={item}>
 								<div id="stat">{item[1]}</div>
 								<p>{getDataText(item[0])}</p>
