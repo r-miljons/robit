@@ -6,7 +6,7 @@ import SlideIndicator from "./SlideIndicator";
 
 export default function Intro({setIntroOpen}) {
 	const [currentSlideIndex, setcurrentSlideIndex] = useState(0);
-    const userInfo = useSelector(state => state.user);
+    const userInfo = useSelector(state => state.user.info);
     console.log(userInfo);
 
     function handleNextSlide() {
